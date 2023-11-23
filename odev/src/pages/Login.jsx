@@ -11,7 +11,7 @@ function Login() {
     useEffect(()=>{
       socket.on("new_user",(data)=>{
         if (data.username == name){
-          navigate("/lobby", { state: { username: name,user_id:data.id } });
+          navigate("/lobby", { state: { username: name,id:data.id } });
         }
       })
     },[socket])

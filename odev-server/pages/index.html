@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <p class="klavye"></p>
+  <p class="mouse"></p>
+  <script src="https://cdn.socket.io/4.7.2/socket.io.min.js" integrity="sha384-mZLF4UVrpi/QTWPA7BjNPEnkIfRFn4ZEO3Qt/HFklTJBj/gBOV8G3HcKn4NfQblz" crossorigin="anonymous"></script>
+<script>
+  const socket = io();
+
+  socket.on("key_up",(data)=>{
+    document.querySelector(".klavye").innerHTML = data.id+"li kullanıcı "+data.key+" tuşuna bastı.";
+  });
+
+  socket.on("user_moves_mouse",(data)=>{
+    document.querySelector(".mouse").innerHTML = data.id+"li kullanıcının mousesi "+data.mouse.x+"x"+data.mouse.y+"'de.";
+  });
+
+  window.addEventListener('keyup', (event) => {
+    socket.emit('key_up', event.code);
+  });
+
+  window.addEventListener('mousemove', (event) => {
+    const data = {
+      x: event.clientX,
+      y: event.clientY,
+    };
+    socket.emit('user_moves_mouse', data);
+  });
+</script>
+
+</body>
+</html>
